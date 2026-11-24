@@ -1,0 +1,84 @@
+name: first run
+description: >
+  Unzips a built download the way a person's computer does, then runs
+  tool/release/firstRun.ts on it: init from a stand-in for mycomap.org on the
+  runner (small databases made with makeblastdb, and NCBI's own BLAST+
+  archive), then run on a small FASTA with the network blocked, then checks
+  the results and the browser app's page, then tries the one-line install. Needs the repository checked out and
+  installed (firstRun.ts runs with tsx), and the downloads in inputs.downloads.
+
+inputs:
+  downloads:
+    description: the folder holding the built .zip files
+    required: true
+  download:
+    description: which download (windows-x64, macos-arm64, macos-x64, linux-x64, linux-arm64)
+    required: true
+  blast:
+    description: NCBI's name for the same computer (x64-win64, aarch64-macosx, x64-macosx, x64-linux, aarch64-linux)
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Unzip it as a person's computer would
+      shell: bash
+      env:
+        DOWNLOADS: ${{ inputs.downloads }}
+        DOWNLOAD: ${{ inputs.download }}
+      run: |
+        version=$(node -p "require('./package.json').version")
+        name="mycomap-validation-$version-$DOWNLOAD"
+        zip="$DOWNLOADS/$name.zip"
+        out="$RUNNER_TEMP/unzipped"
+        rm -rf "$out" && mkdir -p "$out"
+        case "$RUNNER_OS" in
+          Windows) powershell -NoProfile -Command "Expand-Archive -LiteralPath '$(cygpath -w "$zip")' -DestinationPath '$(cygpath -w "$out")'" ;;
+          macOS) ditto -x -k "$zip" "$out" ;;   # what Archive Utility does on a double-click
+          Linux) unzip -q "$zip" -d "$out" ;;
+        esac
+        ls -la "$out/$name" "$out/$name/lib"
+        echo "UNZIPPED=$out/$name" >> "$GITHUB_ENV"
+        echo "ZIP=$zip" >> "$GITHUB_ENV"
+
+    # NCBI's BLAST+ archive: makeblastdb for the stand-in's databases, and the
+    # file init installs (checked against its pinned checksum). Kept between runs.
+    - uses: actions/cache@v4
+      with:
+        path: ${{ runner.temp }}/ncbi
+        key: ncbi-blast-2.17.0+-${{ inputs.blast }}
+    - name: NCBI's BLAST+ 2.17.0 archive
+      shell: bash
+      env:
+        BLAST: ${{ inputs.blast }}
+      run: |
+        file="ncbi-blast-2.17.0+-$BLAST.tar.gz"
+        mkdir -p "$RUNNER_TEMP/ncbi"
+        if [ ! -s "$RUNNER_TEMP/ncbi/$file" ]; then
+          curl -fsSL --retry 3 -o "$RUNNER_TEMP/ncbi/$file" "https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.17.0/$file"
+        fi
+        ls -la "$RUNNER_TEMP/ncbi"
+        echo "BLAST_ARCHIVE=$RUNNER_TEMP/ncbi/$file" >> "$GITHUB_ENV"
+
+    # Then the one-line install (install.ps1 or install.sh) from a server on the
+    # runner, into the work folder (on Windows its Path is a test variable).
+    - name: First run (init from the stand-in, run with no network, the one-line install)
+      shell: bash
+      run: node --import tsx tool/release/firstRun.ts --download "$UNZIPPED" --blast-archive "$BLAST_ARCHIVE" --work "$RUNNER_TEMP/first-run" --zip "$ZIP"
+
+    # What a browser download meets on macOS: every unzipped file carries the
+    # quarantine mark. This says whether the system lets the commands run
+    # anyway (Node.js's own program is signed and notarized by the Node.js
+    # project); it does not stop the release, it reports.
+    - name: "macOS: run with the mark a browser download carries"
+      if: runner.os == 'macOS'
+      shell: bash
+      continue-on-error: true
+      run: |
+        cd "$UNZIPPED"
+        mark="0083;$(printf %x "$(date +%s)");Safari;$(uuidgen)"
+        find . -type f -exec xattr -w com.apple.quarantine "$mark" {} \;
+        xattr -l lib/node | head -2
+        spctl --assess --type execute -vv lib/node || echo "spctl did not accept lib/node (see above)"
+        codesign -dv lib/node 2>&1 | grep -E "Authority|TeamIdentifier|Timestamp" || true
+        ./mycomap-validation --version && ./mmv --version && echo "QUARANTINED DOWNLOAD RUNS"

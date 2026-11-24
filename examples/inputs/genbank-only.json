@@ -1,0 +1,17 @@
+{
+  "about": "A chanterelle with no MycoMap hits: nothing in MycoMap's validated sequences is close, but eight GenBank records are Cantharellus cibarius at 99.6 to 100%.",
+  "recordName": "Cantharellus cibarius",
+  "readCount": 22,
+  "mycomapHits": [],
+  "ncbiHits": [
+    { "name": "Cantharellus cibarius", "identity": 100 },
+    { "name": "Cantharellus cibarius", "identity": 100 },
+    { "name": "Cantharellus cibarius", "identity": 99.8 },
+    { "name": "Cantharellus cibarius", "identity": 99.8 },
+    { "name": "Cantharellus cibarius", "identity": 99.8 },
+    { "name": "Cantharellus cibarius", "identity": 99.6 },
+    { "name": "Cantharellus cibarius", "identity": 99.6 },
+    { "name": "Cantharellus cibarius", "identity": 99.6 }
+  ],
+  "families": { "Cantharellus": "Hydnaceae" }
+}

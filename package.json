@@ -1,0 +1,87 @@
+{
+  "name": "mycomap-validation",
+  "version": "2.0.0",
+  "description": "The rules of MycoMap's DNA-based analysis and auto-validation of fungal records, as code that makes no outside call.",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BiodiverseLabs/mycomap-validation.git"
+  },
+  "homepage": "https://github.com/BiodiverseLabs/mycomap-validation",
+  "exports": {
+    ".": "./src/index.ts",
+    "./aboveGenusNames": "./src/aboveGenusNames.ts",
+    "./adjustedIdentity": "./src/adjustedIdentity.ts",
+    "./newNameSuggestion": "./src/newNameSuggestion.ts",
+    "./strayRead": "./src/strayRead.ts",
+    "./analysis": "./src/analysis.ts",
+    "./analysisCase": "./src/analysisCase.ts",
+    "./analysisRules": "./src/analysisRules.ts",
+    "./caseReplay": "./src/caseReplay.ts",
+    "./contaminantGenera": "./src/contaminantGenera.ts",
+    "./contaminantLikelyName": "./src/contaminantLikelyName.ts",
+    "./genbankLikelyName": "./src/genbankLikelyName.ts",
+    "./curationRules": "./src/curationRules.ts",
+    "./ednaAmplicon": "./src/ednaAmplicon.ts",
+    "./encoding": "./src/encoding.ts",
+    "./ednaHitRules": "./src/ednaHitRules.ts",
+    "./envBlastHitFilter": "./src/envBlastHitFilter.ts",
+    "./familyTypes": "./src/familyTypes.ts",
+    "./infragenericNames": "./src/infragenericNames.ts",
+    "./sequenceCategory": "./src/sequenceCategory.ts",
+    "./sequenceExclusionFlags": "./src/sequenceExclusionFlags.ts",
+    "./speciesNames": "./src/speciesNames.ts",
+    "./specimenVotes": "./src/specimenVotes.ts",
+    "./taxonNames": "./src/taxonNames.ts",
+    "./analysisRowOwnership": "./src/analysisRowOwnership.ts",
+    "./analysisVerdictGuards": "./src/analysisVerdictGuards.ts",
+    "./autovalidationNames": "./src/autovalidationNames.ts",
+    "./autovalidationNcbiReadiness": "./src/autovalidationNcbiReadiness.ts",
+    "./autovalidationPushSafety": "./src/autovalidationPushSafety.ts",
+    "./autovalidationTaxonomy": "./src/autovalidationTaxonomy.ts",
+    "./autovalidationVisionSupport": "./src/autovalidationVisionSupport.ts",
+    "./recordCase": "./src/recordCase.ts",
+    "./recordDecision": "./src/recordDecision.ts",
+    "./recordPlatforms": "./src/recordPlatforms.ts",
+    "./runContaminantTrash": "./src/runContaminantTrash.ts",
+    "./visionAgreement": "./src/visionAgreement.ts",
+    "./visionDecisionEvents": "./src/visionDecisionEvents.ts",
+    "./analysisJobResult": "./src/analysisJobResult.ts",
+    "./strayReadPass": "./src/strayReadPass.ts",
+    "./crossReadPasses": "./src/crossReadPasses.ts",
+    "./crossReadCase": "./src/crossReadCase.ts"
+  },
+  "files": [
+    "src",
+    "examples",
+    "tool",
+    "LICENSE",
+    "THIRD_PARTY_NOTICES.md",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "pnpm@10.26.1",
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.test.json",
+    "test": "node --import tsx --test --test-timeout=120000 test/*.test.ts tool/*.test.ts tool/ui/*.test.ts tool/release/*.test.ts",
+    "example": "tsx examples/run.ts",
+    "tool": "tsx tool/cli.ts",
+    "downloads": "tsx tool/release/build.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^25.3.3",
+    "esbuild": "0.27.3",
+    "tsx": "4.23.1",
+    "typescript": "~5.9.3"
+  },
+  "pnpm": {
+    "ignoredBuiltDependencies": [
+      "esbuild"
+    ]
+  }
+}

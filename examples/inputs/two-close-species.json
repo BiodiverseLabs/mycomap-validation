@@ -1,0 +1,22 @@
+{
+  "about": "An Amanita whose read sits between two species: MycoMap's validated sequences and GenBank both split evenly between Amanita muscaria and Amanita persicina at 99.8%.",
+  "recordName": "Amanita muscaria",
+  "readCount": 25,
+  "mycomapHits": [
+    { "name": "Amanita muscaria", "identity": 99.5, "adjustedIdentity": 99.8 },
+    { "name": "Amanita persicina", "identity": 99.5, "adjustedIdentity": 99.8 },
+    { "name": "Amanita muscaria", "identity": 99.5, "adjustedIdentity": 99.8 },
+    { "name": "Amanita persicina", "identity": 99.5, "adjustedIdentity": 99.8 },
+    { "name": "Amanita muscaria", "identity": 99.5, "adjustedIdentity": 99.8 },
+    { "name": "Amanita persicina", "identity": 99.5, "adjustedIdentity": 99.8 }
+  ],
+  "ncbiHits": [
+    { "name": "Amanita muscaria", "identity": 99.8 },
+    { "name": "Amanita persicina", "identity": 99.8 },
+    { "name": "Amanita muscaria", "identity": 99.8 },
+    { "name": "Amanita persicina", "identity": 99.8 },
+    { "name": "Amanita muscaria", "identity": 99.8 },
+    { "name": "Amanita persicina", "identity": 99.8 }
+  ],
+  "families": { "Amanita": "Amanitaceae" }
+}

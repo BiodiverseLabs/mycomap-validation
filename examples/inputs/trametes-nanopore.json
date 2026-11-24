@@ -1,0 +1,18 @@
+{
+  "about": "A nanopore read of Trametes versicolor with ragged ends and homopolymer differences: every hit is just under 99% plain identity, but 99.6 to 100% adjusted.",
+  "recordName": "Trametes versicolor",
+  "readCount": 18,
+  "mycomapHits": [
+    { "name": "Trametes versicolor", "identity": 98.83, "adjustedIdentity": 100 },
+    { "name": "Trametes versicolor", "identity": 98.83, "adjustedIdentity": 99.83 },
+    { "name": "Trametes versicolor", "identity": 98.67, "adjustedIdentity": 99.67 }
+  ],
+  "ncbiHits": [
+    { "name": "Trametes versicolor", "identity": 98.9, "adjustedIdentity": 100 },
+    { "name": "Trametes versicolor", "identity": 98.8, "adjustedIdentity": 99.8 },
+    { "name": "Trametes versicolor", "identity": 98.8, "adjustedIdentity": 99.8 },
+    { "name": "Trametes versicolor", "identity": 98.7, "adjustedIdentity": 99.6 },
+    { "name": "Trametes versicolor", "identity": 98.7, "adjustedIdentity": 99.6 }
+  ],
+  "families": { "Trametes": "Polyporaceae" }
+}

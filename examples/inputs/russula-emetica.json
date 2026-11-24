@@ -1,0 +1,24 @@
+{
+  "about": "A Russula emetica specimen whose read matches six DNA-validated MycoMap sequences (plain and adjusted identity, as mycomap.org's BLAST page shows them) and eight GenBank records at 100% (NCBI shows plain identity only).",
+  "recordName": "Russula emetica",
+  "readCount": 40,
+  "mycomapHits": [
+    { "name": "Russula emetica", "identity": 99.67, "adjustedIdentity": 100 },
+    { "name": "Russula emetica", "identity": 99.67, "adjustedIdentity": 100 },
+    { "name": "Russula emetica", "identity": 99.67, "adjustedIdentity": 100 },
+    { "name": "Russula emetica", "identity": 99.67, "adjustedIdentity": 100 },
+    { "name": "Russula emetica", "identity": 99.67, "adjustedIdentity": 100 },
+    { "name": "Russula emetica", "identity": 99.67, "adjustedIdentity": 100 }
+  ],
+  "ncbiHits": [
+    { "name": "Russula emetica", "identity": 100 },
+    { "name": "Russula emetica", "identity": 100 },
+    { "name": "Russula emetica", "identity": 100 },
+    { "name": "Russula emetica", "identity": 100 },
+    { "name": "Russula emetica", "identity": 100 },
+    { "name": "Russula emetica", "identity": 100 },
+    { "name": "Russula emetica", "identity": 100 },
+    { "name": "Russula emetica", "identity": 100 }
+  ],
+  "families": { "Russula": "Russulaceae" }
+}

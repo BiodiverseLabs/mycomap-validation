@@ -1,0 +1,6 @@
+# Two aligned reads of the same ITS region; "-" is a gap.
+# Read 2 starts 3 bases later and stops 2 bases earlier, and has one A fewer in the run of five As.
+>read-1
+TCCGTAGGTGAACCTGCGGAAAAAGGATCATTGAAGAG
+>read-2
+---GTAGGTGAACCTGCGGAAAA-GGATCATTGAAG--

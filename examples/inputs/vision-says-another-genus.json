@@ -1,0 +1,10 @@
+{
+  "about": "The DNA says Crepidotus; from the photos, Vision is 85% sure it is a Panellus and does not list Crepidotus at all.",
+  "dna": { "species": "Crepidotus mollis", "confidence": 90 },
+  "dnaFamily": "Crepidotaceae",
+  "vision": {
+    "species": [{ "name": "Panellus stipticus", "percent": 80 }, { "name": "Panellus ringens", "percent": 5 }],
+    "genus": [{ "name": "Panellus", "percent": 85 }, { "name": "Mycena", "percent": 6 }],
+    "family": [{ "name": "Mycenaceae", "percent": 91 }]
+  }
+}

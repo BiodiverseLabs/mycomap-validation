@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="mmv-key" content="{{KEY}}">
+<title>MycoMap Validation</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="top">
+  <h1>MycoMap <span>Validation</span></h1>
+  <p class="muted">{{VERSION}} · on this computer only</p>
+</header>
+<div class="layout">
+  <aside>
+    <section class="card">
+      <h2>New run</h2>
+      <form id="new-run">
+        <label>FASTA file <input type="file" id="fasta" accept=".fasta,.fa,.fas,.fna,.txt" required></label>
+        <label>Records sheet <span class="muted">(optional: sequence, record, name, reads)</span> <input type="file" id="records" accept=".csv,.tsv,.txt"></label>
+        <label class="check"><input type="checkbox" id="ncbi" checked> Search GenBank's fungal ITS too</label>
+        <label class="check"><input type="checkbox" id="refresh-ncbi"> Ask NCBI live about sequences GenBank's weekly database does not answer</label>
+        <fieldset id="ncbi-access" class="ncbi-access" hidden>
+          <p class="muted small">Sequences with no weekly GenBank hit at 97% or better are sent to NCBI's BLAST with your email address, which NCBI asks for, and your API key if you give one. Nothing else is sent, and neither is saved.</p>
+          <label>NCBI API key <span class="muted">(optional)</span> <span class="muted" id="ncbi-key-note"></span> <input type="password" id="ncbi-key" autocomplete="off" spellcheck="false"></label>
+          <label>Your email address <span class="muted">(NCBI asks for it)</span> <span class="muted" id="ncbi-email-note"></span> <input type="email" id="ncbi-email" autocomplete="email"></label>
+        </fieldset>
+        <label class="check"><input type="checkbox" id="vision"> Ask MycoMap Vision about each record</label>
+        <label id="vision-key-label" hidden>Vision key <span class="muted" id="vision-key-note">(used for this run only, never saved)</span> <input type="password" id="vision-key" autocomplete="off" spellcheck="false"></label>
+        <p class="muted small" id="vision-note" hidden>Sends each iNaturalist or Mushroom Observer record's observation number, or the photos in the sheet's photos folder, to MycoMap Vision. Nothing else is sent.</p>
+        <button type="submit" id="start">Name the sequences</button>
+      </form>
+    </section>
+    <section class="card">
+      <h2>Databases</h2>
+      <div id="status"><p class="muted">Reading…</p></div>
+    </section>
+    <section class="card">
+      <h2>Past runs</h2>
+      <div id="runs"></div>
+    </section>
+  </aside>
+  <main id="main">
+    <div class="empty">
+      <h2>Name your sequences</h2>
+      <p>Choose a FASTA file of ITS sequences and, if you have one, a sheet giving each sequence its record and the observer's identification. The tool searches MycoMap's sequences and GenBank's with BLAST on this computer, and decides each record as MycoMap's auto-validation would. Nothing is sent anywhere, unless you ask MycoMap Vision with your own key, or tick "Ask NCBI live": then the sequences the weekly GenBank database does not answer are sent to NCBI.</p>
+    </div>
+  </main>
+</div>
+<script type="module" src="/app.js"></script>
+</body>
+</html>

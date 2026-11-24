@@ -1,0 +1,15 @@
+{
+  "about": "A specimen recorded as Russula emetica whose read is a mould: every GenBank hit is Cladosporium cladosporioides, and nothing in MycoMap matches.",
+  "recordName": "Russula emetica",
+  "readCount": 40,
+  "mycomapHits": [],
+  "ncbiHits": [
+    { "name": "Cladosporium cladosporioides", "identity": 100 },
+    { "name": "Cladosporium cladosporioides", "identity": 100 },
+    { "name": "Cladosporium cladosporioides", "identity": 100 },
+    { "name": "Cladosporium cladosporioides", "identity": 100 },
+    { "name": "Cladosporium cladosporioides", "identity": 100 },
+    { "name": "Cladosporium cladosporioides", "identity": 100 }
+  ],
+  "families": { "Russula": "Russulaceae", "Cladosporium": "Cladosporiaceae" }
+}

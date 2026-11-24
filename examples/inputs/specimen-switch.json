@@ -1,0 +1,14 @@
+{
+  "about": "A record of the polypore Laricifomes officinalis whose read is a small cup fungus: nothing in MycoMap matches, and GenBank's hits are all Hyphodiscus hymeniophilus.",
+  "recordName": "Laricifomes officinalis",
+  "readCount": 16,
+  "mycomapHits": [],
+  "ncbiHits": [
+    { "name": "Hyphodiscus hymeniophilus", "identity": 99.8 },
+    { "name": "Hyphodiscus hymeniophilus", "identity": 99.8 },
+    { "name": "Hyphodiscus hymeniophilus", "identity": 99.7 },
+    { "name": "Hyphodiscus hymeniophilus", "identity": 99.7 },
+    { "name": "Hyphodiscus hymeniophilus", "identity": 99.6 }
+  ],
+  "families": { "Laricifomes": "Fomitopsidaceae", "Hyphodiscus": "Hyaloscyphaceae" }
+}

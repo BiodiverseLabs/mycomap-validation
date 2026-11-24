@@ -1,0 +1,107 @@
+name: release
+
+# On each v* tag: builds the downloads (one .zip for each kind of computer:
+# the tool as one script, Node.js from nodejs.org, the mycomap-validation and
+# mmv commands) and the one-line installers (install.ps1, install.sh), tries
+# the first run and the one-line install on Windows, macOS and Linux, and
+# attaches them all to the tag's GitHub Release (made here if there is none
+# yet). Every download is tried on its own kind of computer: Windows x64,
+# macOS on Apple silicon and on Intel, Linux x64 and Linux ARM. Run it by hand (Actions > release > Run workflow) to try the build
+# and the first runs without a release: nothing is published then.
+#
+# The five computers are tried here, on tags, and not on every push, to keep
+# each push quick (ci.yml tries Linux on every push).
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: The tag is the package's version
+        if: startsWith(github.ref, 'refs/tags/')
+        run: test "v$(node -p "require('./package.json').version")" = "$GITHUB_REF_NAME"
+      # Node.js is downloaded from nodejs.org and checked against the checksums pinned in tool/release/nodeRuntime.ts.
+      - run: pnpm downloads --platform all --out dist/downloads
+      - uses: actions/upload-artifact@v4
+        with:
+          name: downloads
+          path: |
+            dist/downloads/*.zip
+            dist/downloads/install.ps1
+            dist/downloads/install.sh
+            dist/downloads/SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 14
+
+  first-run:
+    needs: build
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: windows-latest, download: windows-x64, blast: x64-win64 }
+          - { os: macos-latest, download: macos-arm64, blast: aarch64-macosx }
+          - { os: macos-15-intel, download: macos-x64, blast: x64-macosx }
+          - { os: ubuntu-latest, download: linux-x64, blast: x64-linux }
+          - { os: ubuntu-24.04-arm, download: linux-arm64, blast: aarch64-linux }
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      # For firstRun.ts only; the download under test brings its own Node.js.
+      - run: pnpm install --frozen-lockfile
+      - uses: actions/download-artifact@v4
+        with:
+          name: downloads
+          path: ${{ runner.temp }}/downloads
+      - uses: ./.github/actions/first-run
+        with:
+          downloads: ${{ runner.temp }}/downloads
+          download: ${{ matrix.download }}
+          blast: ${{ matrix.blast }}
+
+  publish:
+    needs: [build, first-run]
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: downloads
+          path: downloads
+      - name: Attach the downloads to the tag's release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          version="${TAG#v}"
+          if ! gh release view "$TAG" >/dev/null 2>&1; then
+            # The release notes are the CHANGELOG's section for this version.
+            awk -v h="## $version" '$0 == h || index($0, h " ") == 1 { on = 1; next } on && /^## / { exit } on' CHANGELOG.md > notes.md
+            prerelease=""
+            case "$version" in *-*) prerelease="--prerelease" ;; esac
+            gh release create "$TAG" --verify-tag --title "MycoMap Validation $version" --notes-file notes.md $prerelease
+          fi
+          gh release upload "$TAG" downloads/*.zip downloads/install.ps1 downloads/install.sh downloads/SHA256SUMS.txt --clobber
+          gh release view "$TAG" --json assets --jq '.assets[].name'

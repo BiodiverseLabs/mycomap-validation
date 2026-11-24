@@ -1,0 +1,44 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      # BLAST+ for the tool's tests, which search a small database with the real blastn.
+      - run: sudo apt-get update -q && sudo apt-get install -y -q ncbi-blast+ && blastn -version
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run typecheck
+      - run: pnpm test
+
+  # The Linux download, built and tried from the .zip on every push: init from
+  # a stand-in for mycomap.org, run with no network. (release.yml tries
+  # Windows and macOS too, on tags.)
+  download:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm downloads --platform linux-x64 --out dist/downloads
+      - uses: ./.github/actions/first-run
+        with:
+          downloads: dist/downloads
+          download: linux-x64
+          blast: x64-linux

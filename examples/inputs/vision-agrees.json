@@ -1,0 +1,9 @@
+{
+  "about": "The DNA names a polypore Picipes tubaeformis at only 55%; from the photos, Vision is 96% sure of the same species.",
+  "dna": { "species": "Picipes tubaeformis", "confidence": 55 },
+  "dnaFamily": "Polyporaceae",
+  "vision": {
+    "species": [{ "name": "Picipes tubaeformis", "percent": 96 }, { "name": "Picipes badius", "percent": 2 }],
+    "genus": [{ "name": "Picipes", "percent": 97 }]
+  }
+}

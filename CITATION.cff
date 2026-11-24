@@ -1,0 +1,45 @@
+cff-version: 1.2.0
+message: "If you use MycoMap Validation, please cite it as below."
+title: "MycoMap Validation: DNA-based identification and auto-validation rules for fungal records"
+type: software
+authors:
+  - given-names: Stephen D.
+    family-names: Russell
+    affiliation: MycoMap.org
+    orcid: "https://orcid.org/0000-0001-7191-2451"
+  - name: "MycoMap contributors"
+# Zenodo gives each release its own DOI once it is archived, so the code's DOI
+# cannot be written into the release it names: it is added here in the next
+# release after 2.0.0.
+version: "2.0.0"
+date-released: "2026-11-24"
+license: MIT
+url: "https://mycomap.org"
+repository-code: "https://github.com/BiodiverseLabs/mycomap-validation"
+keywords:
+  - fungi
+  - mycology
+  - DNA barcoding
+  - ITS
+  - BLAST
+  - biodiversity
+references:
+  - type: data
+    title: "MycoMap reference sequences and records"
+    authors:
+      - given-names: Stephen D.
+        family-names: Russell
+        affiliation: Mycota
+        orcid: "https://orcid.org/0000-0001-7191-2451"
+      - name: "MycoMap.org"
+    doi: "10.5281/zenodo.24503494"
+    url: "https://mycomap.org/data-downloads"
+    license: CC-BY-4.0
+  - type: software
+    title: "adjusted-identity"
+    authors:
+      - family-names: Walker
+        given-names: Josh
+    version: "0.2.6"
+    repository-code: "https://github.com/joshuaowalker/adjusted-identity"
+    license: BSD-2-Clause
